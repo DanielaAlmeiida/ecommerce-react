@@ -1,4 +1,6 @@
-const InputFormModal = ({ label, type = "text", name, handleChange, value="" }) => {
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const InputFormModal = ({ label, type = "text", name, handleChange, value }) => {
 
     return ( <>
             <label> {label} </label>

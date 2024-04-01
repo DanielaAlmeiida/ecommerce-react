@@ -3,6 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import InputFormModal from '../InputFormModal';
 
+
 const ModalAdicionaProduto = ({ 
         abrirFecharModalIncluir, 
         modalIncluir, 
@@ -15,6 +16,8 @@ const ModalAdicionaProduto = ({
     }) => {
 
     const pedidoPost = async() => {
+        delete produtoSelecionado.id;
+
         produtoSelecionado.preco = parseFloat(produtoSelecionado.preco);
         produtoSelecionado.quantidade = parseInt(produtoSelecionado.quantidade);
 
@@ -24,7 +27,7 @@ const ModalAdicionaProduto = ({
             setUpdateProdutos(true);
             abrirFecharModalIncluir();
         }).catch(error => {
-            console.log(error);
+            console.error('Erro na solicitação:', error);
         })
     }
 
@@ -43,8 +46,8 @@ const ModalAdicionaProduto = ({
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <button className="btn btn-primary" onClick={() => pedidoPost() }>Incluir</button>{" "}
-                    <button className="btn btn-danger" onClick={() => abrirFecharModalIncluir() }>Excluir</button>
+                    <button className="btn btn-primary" onClick={() => pedidoPost() }>Adicionar</button>{" "}
+                    <button className="btn btn-danger" onClick={() => abrirFecharModalIncluir() }>Cancelar</button>
                 </ModalFooter>
             </Modal>
         </div>
