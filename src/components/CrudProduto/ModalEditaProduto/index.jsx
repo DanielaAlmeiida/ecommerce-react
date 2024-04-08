@@ -1,18 +1,18 @@
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import InputFormModal from '../InputFormModal';
+import { ModalPropsContext } from '../../../context/ProdutoContext';
 
 
-const ModalEditaProduto = ({ 
-        abrirFecharModalEditar, 
-        modalEditar, 
+const ModalEditaProduto = ({ abrirFecharModalEditar, modalEditar }) => {
+    const {
         baseUrl, 
-        produtos, 
-        produtoSelecionado,
-        handleChange,
+        produtos,
+        produtoSelecionado, 
+        handleChange, 
         setUpdateProdutos
-    }) => {
+    } = useContext(ModalPropsContext);
 
     const pedidoPut = async() => {
         produtoSelecionado.preco = parseFloat(produtoSelecionado.preco);

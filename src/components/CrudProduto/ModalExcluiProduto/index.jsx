@@ -1,17 +1,17 @@
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
+import { ModalPropsContext } from '../../../context/ProdutoContext';
 
 
-const ModalExcluiProduto = ({ 
-        abrirFecharModalExcluir, 
-        modalExcluir, 
+const ModalExcluiProduto = ({ abrirFecharModalExcluir,  modalExcluir }) => {
+    const {
         baseUrl, 
-        produtos, 
-        produtoSelecionado,
-        setUpdateProdutos,
-        setProdutos
-    }) => {
+        produtos,
+        setProdutos, 
+        produtoSelecionado, 
+        setUpdateProdutos
+    } = useContext(ModalPropsContext);
 
     const pedidoDelete = async() => {
         await axios.delete(baseUrl + "/" + produtoSelecionado.id)

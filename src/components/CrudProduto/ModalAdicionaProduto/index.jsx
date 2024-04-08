@@ -1,19 +1,19 @@
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import InputFormModal from '../InputFormModal';
+import { ModalPropsContext } from '../../../context/ProdutoContext';
 
 
-const ModalAdicionaProduto = ({ 
-        abrirFecharModalIncluir, 
-        modalIncluir, 
+const ModalAdicionaProduto = ({ abrirFecharModalIncluir, modalIncluir }) => {
+    const {
         baseUrl, 
+        produtos,
         setProdutos, 
-        produtos, 
-        produtoSelecionado,
-        handleChange,
+        produtoSelecionado, 
+        handleChange, 
         setUpdateProdutos
-    }) => {
+    } = useContext(ModalPropsContext);
 
     const pedidoPost = async() => {
         delete produtoSelecionado.id;

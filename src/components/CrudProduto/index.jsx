@@ -1,83 +1,35 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios';
 import logo from '../../assets/logo.png'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import ModalAdicionaProduto from './ModalAdicionaProduto';
 import ModalEditaProduto from './ModalEditaProduto';
 import ModalExcluiProduto from './ModalExcluiProduto';
+import { ModalPropsContext, ModalPropsProvider } from '../../context/ProdutoContext';
 
 const CrudProduto = () => {
+    const { produtos, setProdutoSelecionado } = useContext(ModalPropsContext);
 
-    const baseUrl = "https://localhost:7229/api/Produto";
-
-    const [produtos, setProdutos] = useState([]);
-    const [updateProdutos, setUpdateProdutos] = useState(true);
-
-    const pedidoGet = async() => {
-        await axios.get(baseUrl)
-        .then(response => {
-            setProdutos(response.data);
-        }).catch(error => {
-            console.log(error);
-        })
-    }
-
-    const [produtoSelecionado, setProdutoSelecionado] = useState({
-        id: '',
-        nome: '',
-        preco: '',
-        quantidade: '',
-        categoria:'',
-        cor: '',
-        descricao: ''
-    })
-
-    const handleChange = e => {
-        const {name, value} = e.target;
-
-        setProdutoSelecionado({
-            ...produtoSelecionado, [name]:value
-        });
-    }
-
-
-    {/* Controlar modal - adicionar produto */}
     const [modalIncluir, setModalIncluir] = useState(false);
+    const [modalEditar, setModalEditar] = useState(false);
+    const [modalExcluir, setModalExcluir] = useState(false);
 
     const abrirFecharModalIncluir = () => {
         setModalIncluir(!modalIncluir);
     }
 
-
-    {/* Controlar modal - Editar Produto */}
-    const [modalEditar, setModalEditar] = useState(false);
-
     const abrirFecharModalEditar = () => {
         setModalEditar(!modalEditar);
     }
 
-    
-    {/* Controlar modal - Excluir Produto */}
-    const [modalExcluir, setModalExcluir] = useState(false);
-
     const abrirFecharModalExcluir = () => {
         setModalExcluir(!modalExcluir);
     }
-
 
     const selecionarProduto = (produto, opcao) => {
         setProdutoSelecionado(produto);
             (opcao==="Editar") ? 
                 abrirFecharModalEditar() : abrirFecharModalExcluir();
     }
-
-    useEffect(() => {
-        if (updateProdutos) {
-            pedidoGet();
-            setUpdateProdutos(false);
-        }
-    }, [updateProdutos])
-
 
     return (
         <div>
@@ -101,36 +53,12 @@ const CrudProduto = () => {
                 ))}
             </div>
             
-            <ModalAdicionaProduto
-                abrirFecharModalIncluir={abrirFecharModalIncluir}
-                modalIncluir = {modalIncluir}
-                baseUrl = {baseUrl}
-                setProdutos = {setProdutos}
-                produtos = {produtos}
-                produtoSelecionado = {produtoSelecionado}
-                handleChange={handleChange}
-                setUpdateProdutos = {setUpdateProdutos}
-            />
+            <ModalPropsProvider>
+                <ModalAdicionaProduto abrirFecharModalIncluir={abrirFecharModalIncluir} modalIncluir = {modalIncluir} />
+                <ModalEditaProduto abrirFecharModalEditar={abrirFecharModalEditar} modalEditar={modalEditar} />
+                <ModalExcluiProduto abrirFecharModalExcluir={abrirFecharModalExcluir} modalExcluir={modalExcluir} />
+            </ModalPropsProvider>
 
-            <ModalEditaProduto 
-                abrirFecharModalEditar={abrirFecharModalEditar}
-                modalEditar={modalEditar}
-                baseUrl={baseUrl}
-                produtos={produtos}
-                produtoSelecionado={produtoSelecionado}
-                handleChange={handleChange}
-                setUpdateProdutos={setUpdateProdutos}
-            />
-
-            <ModalExcluiProduto 
-                abrirFecharModalExcluir={abrirFecharModalExcluir}
-                modalExcluir={modalExcluir} 
-                baseUrl={baseUrl}
-                produtos={produtos}
-                produtoSelecionado={produtoSelecionado}
-                setUpdateProdutos={setUpdateProdutos}
-                setProdutos={setProdutos}
-            />
         </div>
     )
 }
