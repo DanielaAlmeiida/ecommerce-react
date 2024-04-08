@@ -4,7 +4,7 @@ import React, { useState, useContext } from 'react';
 import ModalAdicionaProduto from './ModalAdicionaProduto';
 import ModalEditaProduto from './ModalEditaProduto';
 import ModalExcluiProduto from './ModalExcluiProduto';
-import { ModalPropsContext, ModalPropsProvider } from '../../context/ProdutoContext';
+import { ModalPropsContext, ModalPropsProvider } from '../../context/ProdutoContext/ProdutoContext';
 
 const CrudProduto = () => {
     const { produtos, setProdutoSelecionado } = useContext(ModalPropsContext);

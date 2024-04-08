@@ -1,7 +1,7 @@
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 import axios from 'axios';
 import React, { useContext } from 'react';
-import { ModalPropsContext } from '../../../context/ProdutoContext';
+import { ModalPropsContext } from '../../../context/ProdutoContext/ProdutoContext';
 
 
 const ModalExcluiProduto = ({ abrirFecharModalExcluir,  modalExcluir }) => {

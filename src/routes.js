@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes} from 'react-router-dom'
 import Login from './pages/Login'
 import Produtos from './pages/Produtos'
 import NovoProduto from './pages/NovoProduto'
+import CrudProduto from './components/CrudProduto';
+import { ModalPropsProvider } from './context/ProdutoContext/ProdutoContext';
 
 export default function AppRoutes() {
     return (
@@ -11,6 +13,9 @@ export default function AppRoutes() {
                 <Route path="/" element={<Login />} />
                 <Route path="/produtos" element={<Produtos />} />
                 <Route path="/produto/novo/:produtoId" element={<NovoProduto />} />
+                <Route path="/admin" element={
+                    <ModalPropsProvider> <CrudProduto /> </ModalPropsProvider>
+                } />
             </Routes>
         </BrowserRouter>
     )
