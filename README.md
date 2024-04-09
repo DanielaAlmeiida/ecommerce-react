@@ -1,3 +1,5 @@
+![ecommerce](https://github.com/DanielaAlmeiida/ecommerce-react/assets/104696916/3011f1d6-d07f-45be-a4b8-84bdbeaf3cb6)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
