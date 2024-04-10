@@ -8,7 +8,9 @@ import { useNavigate } from 'react-router-dom';
 export default function Produtos() {
     const navigate = useNavigate();
 
-    const [nome, setNome] = useState('');
+    const [searchInput, setSearchInput] = useState('');
+    const [filtro, setFiltro] = useState([]);
+
     const [produtos, setProdutos] = useState([]);
 
     const email = localStorage.getItem('email');
@@ -17,6 +19,22 @@ export default function Produtos() {
     const authorization = {
         headers: {
             Authorization : `Bearer ${token}`
+        }
+    }
+
+    const searchProdutos = (searchValue) => {
+        setSearchInput(searchValue);
+
+        if (searchInput !== '') {
+
+            const dadosFiltrados = produtos.filter((produto) => {
+                return Object.values(produto.nome).join('').toLowerCase()
+                    .includes(searchInput.toLowerCase())
+            });
+            setFiltro(dadosFiltrados);
+
+        } else {
+            setProdutos(produtos);
         }
     }
 
@@ -46,6 +64,17 @@ export default function Produtos() {
         }
     }
 
+    async function deleteProduto(id) {
+        try {
+            if (window.confirm('Deseja deletar o produto de id ' + id + '?')) {
+                await api.delete(`api/produto/${id}`, authorization);
+                setProdutos(produtos.filter(produto => produto.id !== id));
+            }
+        } catch(error) {
+            alert('Não foi possível deletar produto')
+        }
+    }
+
 
     return (
         <div>
@@ -57,24 +86,53 @@ export default function Produtos() {
             <button onClick={logout}> Logout </button>
 
             <form>
-                <input type='text' placeholder='Nome do produto' />
+                <input 
+                    type='text' 
+                    placeholder='Nome do produto' 
+                    onChange={(e) => searchProdutos(e.target.value)}
+                />
+                {/*                 
                 <button type='button'> Filtrar produto por nome </button>
+                */}
             </form>
 
             <h2>Relação de produtos</h2>
-            {produtos.map( produto => (
-                <div key={produto.id}>
-                    <p>Nome: {produto.nome} </p>
-                    <p>Preco: {produto.preco} </p>
-                    <p>Quantidade: {produto.quantidade} </p>
-                    <p>Cor: {produto.cor} </p>
-                    <p>Categoria: {produto.categoria} </p>
-                    <p>Descrição: {produto.descricao} </p>
 
-                    <button type='button' onClick={() => editProduto(produto.id)}> Editar </button>
-                    <button type='button'> Excluir </button>
+            {searchInput.length > 1 ? (
+                <div>
+                    {filtro.map( produto => (
+                        <div key={produto.id}>
+                            <p>Nome: {produto.nome} </p>
+                            <p>Preco: {produto.preco} </p>
+                            <p>Quantidade: {produto.quantidade} </p>
+                            <p>Cor: {produto.cor} </p>
+                            <p>Categoria: {produto.categoria} </p>
+                            <p>Descrição: {produto.descricao} </p>
+        
+                            <button type='button' onClick={() => editProduto(produto.id)}> Editar </button>
+                            <button type='button'> Excluir </button>
+                        </div>
+                    ))}
                 </div>
-            ))}
+            ) : (
+                <div>
+                    {produtos.map( produto => (
+                        <div key={produto.id}>
+                            <p>Nome: {produto.nome} </p>
+                            <p>Preco: {produto.preco} </p>
+                            <p>Quantidade: {produto.quantidade} </p>
+                            <p>Cor: {produto.cor} </p>
+                            <p>Categoria: {produto.categoria} </p>
+                            <p>Descrição: {produto.descricao} </p>
+        
+                            <button type='button' onClick={() => editProduto(produto.id)}> Editar </button>
+                            <button type='button' onClick={() => deleteProduto(produto.id)}> Excluir </button>
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            
             
         </div>
     )
