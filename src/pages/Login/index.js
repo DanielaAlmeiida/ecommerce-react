@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import api from '../../services/api';
 import { useNavigate } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
+import Header from '../../components/Header';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -22,7 +24,9 @@ export default function Login() {
             localStorage.setItem('expiration', response.data.expiration);
 
             //navigate('/admin')
-            navigate('/produtos');
+            //navigate('/produtos');
+            navigate('/home');
+
 
         } catch(error) {
             alert('O login falhou' + error)
@@ -30,10 +34,12 @@ export default function Login() {
     }
 
     return (
-        <div className="login-container">
+        <>
+        {/* 
+         <div className="login-container bg-purple-600" >
             <h1>Login</h1>
             <section className="form">
-                <form onSubmit={login}>
+                <form onSubmit={login} className="flex flex-col">
                     <input 
                         placeholder="email" 
                         type="email"
@@ -46,9 +52,42 @@ export default function Login() {
                         value={password}
                         onChange={ e => setPassword(e.target.value) }
                     />
-                    <button className="button" type="submit">Login</button>
+                    <button className="button bg-green-500" type="submit">Login</button>
                 </form>
             </section>
         </div>
+*/}
+        <Header />
+            <div className="login-container flex flex-col items-center justify-center h-screen">
+                <div className="h-2/4">
+                    <Card border="success" style={{ width: '18rem' }}>
+                        <Card.Header>Login</Card.Header>
+                        <Card.Body className="form">
+                            <Card.Title>Realize seu Login</Card.Title>
+                            <Card.Text>
+                                <form onSubmit={login} className="flex flex-col">
+                                    <input 
+                                        className="border-green-300"
+                                        placeholder="email" 
+                                        type="email"
+                                        value={email}
+                                        onChange={ e => setEmail(e.target.value) }
+                                    />
+                                    <input 
+                                        className="border-green-300 bg-green-300"
+                                        placeholder="senha"
+                                        type="password"
+                                        value={password}
+                                        onChange={ e => setPassword(e.target.value) }
+                                    />
+                                    <button className="button bg-green-500 text-white" type="submit">Login</button>
+                                </form>
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>    
+                </div>
+            </div>
+        </>
+       
     )
 }

@@ -1,9 +1,10 @@
 import React from 'react'
-import './normalize.css';
+import './index.css';
 import AppRoutes from './routes';
+import "tailwindcss/tailwind.css"
 
 function App() {
-  return <AppRoutes />;
+  return <AppRoutes />
 }
 
 export default App;
